@@ -18,7 +18,7 @@ Here's the [link](https://www.notion.so/myproject-page-f753fd0a6cb24ce19ff01e1d9
 
 ## Collaboration
 
-Welcome! If you want to collaborate, please fork this repo and play around with it. any issues, todo's, feature requests are appreciated as well. Cheers!
+Welcome! If you want to collaborate, please fork this repo and play around with it. any issues, todo's, feature requests are appreciated as well. Cheers! 
 
 ## Database setup
 
@@ -39,3 +39,11 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
   - grant persmissions to `hotshot_dev`
 
     `postgres=# grant all privileges on database prjecthunt to hotshot_dev;`
+
+## TODO
+
+- [ ] Proper Documentation for entity relation structure.
+- [ ] 
+- [ ] Constraints for tables. Currently, most of the stuff is straight out string. I think we can improve on that
+- [ ] Write Correspo
+
