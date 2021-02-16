@@ -29,8 +29,13 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
   Inside the cli...
 
   - create a database named `projecthunt`
+
     `postgres=# create database projecthunt;`
+
   - create user `hotshot_dev` with password as `passwd`
+
     `postgres=# create user hotshot_dev with encrypted password 'passwd';`
+
   - grant persmissions to `hotshot_dev`
+
     `postgres=# grant all privileges on database prjecthunt to hotshot_dev;`

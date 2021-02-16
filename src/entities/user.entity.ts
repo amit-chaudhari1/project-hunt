@@ -1,15 +1,25 @@
-import { Column, Entity } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+} from 'typeorm';
 import { BaseEntity } from './base.entity';
-// import { Image } from './image.entity';
+import { Image } from './image.entity';
+import { Project } from './project.entity';
+
 @Entity()
 export class User extends BaseEntity {
   @Column()
   username: string;
   @Column()
   password: string;
-  @Column()
-  avatar: string;
-  //TODO: Avatar should have the entityof  image
+  //This is an unidirectional relation.
+  @OneToOne(() => Image)
+  @JoinColumn()
+  avatar: Image;
   @Column()
   linkedin: string;
   @Column()
@@ -22,4 +32,7 @@ export class User extends BaseEntity {
   facebook: string;
   //TODO: come up with a better way to implement social_media Links
   //TODO: provide suitable constraint's to the entities. eg: not more than 10 hashtags, not more than 1000 char title. etc
+  @ManyToMany(() => Project)
+  @JoinTable()
+  projects: Project[];
 }

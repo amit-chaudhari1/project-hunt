@@ -1,15 +1,15 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
-// import { Project } from './project.entity';
-// import { User } from './user.entity';
+import { Project } from './project.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Vote extends BaseEntity {
-  @Column()
-  from_user: string;
-  @Column()
-  on_project: string;
+  @OneToOne(() => User)
+  from_user: User;
+  @OneToOne(() => Project)
+  on_project: Project;
   @Column()
   value: number;
-  //not sure on how to improve here.
+  //this might be a reason to future troubles...
 }

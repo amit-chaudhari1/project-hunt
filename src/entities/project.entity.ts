@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { Image } from './image.entity';
 // import { Image } from './image.entity';
 // import { User } from './user.entity';
 
@@ -11,8 +12,9 @@ export class Project extends BaseEntity {
   tagline: string;
   @Column()
   description: string;
-  @Column()
-  images: string;
+  //TODO: create another entity for project images and assign it many to one relation here...
+  @OneToOne(() => Image)
+  images: Image;
   @Column()
   wesite: string;
   @Column()

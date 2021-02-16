@@ -1,15 +1,18 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
-// import { Project } from './project.entity';
-// import { User } from './user.entity';
+import { Project } from './project.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Comment extends BaseEntity {
-  @Column()
-  user: string;
-  @Column()
-  project: string;
-  //TODO:change
+  //TODO: Future Feature Implement MultiLevel Comment structure...
+  /**
+   * Currently we will support only a single level comment threads.
+   */
+  @OneToOne(() => User)
+  from_user: User;
+  @OneToOne(() => Project)
+  on_project: Project;
   @Column()
   title: string;
   @Column()
