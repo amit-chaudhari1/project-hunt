@@ -19,3 +19,18 @@ Here's the [link](https://www.notion.so/myproject-page-f753fd0a6cb24ce19ff01e1d9
 ## Collaboration
 
 Welcome! If you want to collaborate, please fork this repo and play around with it. any issues, todo's, feature requests are appreciated as well. Cheers!
+
+## Database setup
+
+- Make sure you have PostgreSQL installed ([Installation Instructions for Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04))
+- Open up CLI interface for PostgreSQL
+  `sudo -u postgres psql`
+
+  Inside the cli...
+
+  - create a database named `projecthunt`
+    `postgres=# create database projecthunt;`
+  - create user `hotshot_dev` with password as `passwd`
+    `postgres=# create user hotshot_dev with encrypted password 'passwd';`
+  - grant persmissions to `hotshot_dev`
+    `postgres=# grant all privileges on database prjecthunt to hotshot_dev;`
