@@ -1,18 +1,24 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
-export class BaseEntity {
+export class _BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
   // Randomized UUID generation will be safer
   // TODO: Please look at these: https://typeorm.io/#/entities/column-types-for-postgres
   //                            https://typeorm.io/#/entities/enum-column-type
-  @Column('date')
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column('date')
-  deletedAt: string;
+  @DeleteDateColumn()
+  deletedAt: Date;
 
-  @Column('date')
-  updatedAt: string;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
