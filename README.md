@@ -38,7 +38,7 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
 
   - grant persmissions to `hotshot_dev`
 
-    `postgres=# grant all privileges on database prjecthunt to hotshot_dev;`
+    `postgres=# grant all privileges on database projecthunt to hotshot_dev;`
 
 ## TODO
 
