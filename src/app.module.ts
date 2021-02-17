@@ -18,7 +18,9 @@ import { Project } from './entities/project.entity';
       username: 'hotshot_dev',
       password: 'passwd',
       entities: [BaseEntity, Comment, Image, User, Vote, Project], //TODO: document the entity relations.
+      //TODO: Hashtag entity discussion.
       synchronize: true,
+      logging: true,
     }),
     UsersModule,
   ],

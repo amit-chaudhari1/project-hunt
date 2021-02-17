@@ -11,5 +11,6 @@ export class Vote extends BaseEntity {
   on_project: Project;
   @Column()
   value: number;
+  //TODO: single votes!!!
   //this might be a reason to future troubles...
 }

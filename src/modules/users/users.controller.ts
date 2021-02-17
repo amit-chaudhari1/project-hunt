@@ -9,15 +9,16 @@ export class UsersController {
    * GET /users
    */
   @Get()
-  getAllUsers(): string[] {
+  async getAllUsers() {
     return this.userService.getAllUsers();
   }
+
   /**
    * GET /user/id
    * @param id
    */
   @Get(':id')
-  getUserById(@Param('id') id): string {
+  async getUserById(@Param('id') id) {
     return this.userService.getUserById(id);
   }
 }

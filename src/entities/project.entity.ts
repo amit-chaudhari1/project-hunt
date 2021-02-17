@@ -23,6 +23,7 @@ export class Project extends BaseEntity {
   YT_link: string;
   @Column()
   user: string;
+  //TODO: disscuss how should i develop this relation between projects and users, many to many, but what constraints.
   @Column()
   tags: string;
   //TODO: come up with a better way to implement hashtags

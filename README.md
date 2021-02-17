@@ -43,7 +43,9 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
 ## TODO
 
 - [ ] Proper Documentation for entity relation structure.
-- [ ] 
 - [ ] Constraints for tables. Currently, most of the stuff is straight out string. I think we can improve on that
-- [ ] Write Correspo
+- [ ] Implement Hash tags, 
+- [ ] Fix test
+- [ ] proper Mocks for testing or a typeorm config...
+- [ ] Ci/cd pipe tests setup... 
 
