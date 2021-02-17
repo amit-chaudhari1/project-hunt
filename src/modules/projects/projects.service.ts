@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ProjectRepository } from './projects.repository';
 
 @Injectable()
 export class ProjectsService {
-    getAllProjects(): string[]{
-        return ['project1' , 'project2']
-    }
+  @InjectRepository(ProjectRepository)
+  private projectRepository: ProjectRepository;
 
-    getProjectById(projectId : number): string{
-        return 'project' + projectId;
-    }
+  async getAllProjects() {
+    return this.projectRepository.find();
+  }
+
+  // async getProjectById(projectId) {
+  //   return this.projectRepository.findByIds(projectId);
+  // }
 }

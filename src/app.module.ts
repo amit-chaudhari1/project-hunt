@@ -9,7 +9,7 @@ import { Image } from './entities/image.entity';
 import { User } from './entities/user.entity';
 import { Vote } from './entities/vote.entity';
 import { Project } from './entities/project.entity';
-import { ProjectsController } from './modules/projects/projects.controller';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
   imports: [
@@ -24,8 +24,9 @@ import { ProjectsController } from './modules/projects/projects.controller';
       logging: true,
     }),
     UsersModule,
+    ProjectsModule,
   ],
-  controllers: [AppController, ProjectsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
