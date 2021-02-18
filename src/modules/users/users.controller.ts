@@ -1,4 +1,4 @@
-import { Param } from '@nestjs/common';
+import { Param, Put } from '@nestjs/common';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,7 +21,7 @@ export class UsersController {
   async getAllUsers(): Promise<User[]> {
     return this.userService.getAllUser();
   }
-  @Post()
+  @Put()
   async updateUserData(@Body() updateUserdto: createUserDto, userid: number) {
     return this.userService.updateUser(updateUserdto, userid);
   }
