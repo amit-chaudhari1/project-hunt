@@ -35,7 +35,7 @@ export class User extends _BaseEntity {
 
   @Column({
     type: 'varchar',
-    nullable: false,
+    nullable: true,
     length: 1000,
   })
   bio: string;
