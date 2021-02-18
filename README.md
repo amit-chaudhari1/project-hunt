@@ -18,7 +18,7 @@ Here's the [link](https://www.notion.so/myproject-page-f753fd0a6cb24ce19ff01e1d9
 
 ## Collaboration
 
-Welcome! If you want to collaborate, please fork this repo and play around with it. any issues, todo's, feature requests are appreciated as well. Cheers! 
+Welcome! If you want to collaborate, please fork this repo and play around with it. any issues, todo's, feature requests are appreciated as well. Cheers!
 
 ## Database setup
 
@@ -43,9 +43,14 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
 ## TODO
 
 - [ ] Proper Documentation for entity relation structure.
-- [ ] Constraints for tables. Currently, most of the stuff is straight out string. I think we can improve on that
-- [ ] Implement Hash tags, 
-- [ ] Fix test
-- [ ] proper Mocks for testing or a typeorm config...
-- [ ] Ci/cd pipe tests setup... 
-
+- [ ] Proper Documentation for controllers, modules and services.
+- [ ] Write Better Controllers, for users and Projects.
+- [ ] The user & project service functions that return a list of users/projects should be paginated.
+- [ ]
+- [ ] Implement Filters like sortby, alphabetical, date created, most updated and so on.
+- [x] Constraints for entities. Currently, most of the stuff is straight out string. I think we can improve on that.
+- [ ] Implement Hash tags entities.
+- [ ] Implement api call for Search by hashtag.
+- [ ] Proper Mocks for testing or a typeorm config...
+- [ ] Write Tests for the `**.**.spec.ts` files
+- [ ] CI/CD pipe tests setup...
