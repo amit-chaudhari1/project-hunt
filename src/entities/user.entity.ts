@@ -16,6 +16,18 @@ export class User extends _BaseEntity {
   })
   password: string;
 
+  @Column({
+    type: 'varchar',
+    length: 30,
+  })
+  firstName: string;
+
+  @Column({
+    type: 'varchar',
+    length: 30,
+  })
+  lastName: string;
+
   @OneToOne(() => Image, { nullable: true })
   @JoinColumn({ name: 'avatar' })
   @Column({ nullable: true })
