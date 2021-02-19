@@ -36,7 +36,7 @@ export class Project extends _BaseEntity {
 
   @OneToMany(() => Image, (image) => image.project)
   @JoinColumn({ name: 'images' })
-  @Column('int', { array: true })
+  @Column('int', { array: true, nullable: true })
   images: Image[];
 
   @Column({
@@ -47,7 +47,7 @@ export class Project extends _BaseEntity {
 
   @Column({
     type: 'varchar',
-    nullable: false,
+    nullable: true,
   })
   github: string;
 
@@ -59,12 +59,12 @@ export class Project extends _BaseEntity {
 
   @OneToMany(() => User, (user) => user.project)
   @JoinColumn({ name: 'users' })
-  @Column('int', { array: true })
+  @Column('int', { array: true, nullable: true })
   users: User[];
 
   @OneToMany(() => HashTag, (hashTag) => hashTag.project)
   @JoinColumn({ name: 'tags' })
-  @Column('int', { array: true })
+  @Column('int', { array: true, nullable: true })
   tags: HashTag[];
   //TODO: Implement limit upto 3 users
 }
