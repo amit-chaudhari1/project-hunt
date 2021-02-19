@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -7,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class _BaseEntity {
+export class _BaseEntity extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
   // Randomized UUID generation will be safer
