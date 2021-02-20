@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
-import { SimpleConsoleLogger } from 'typeorm';
-import { createProjectDto } from './createProject.dto';
+import { CreateCommentDto, createProjectDto } from './createProject.dto';
 import { ProjectsService } from './projects.service';
 
 @Controller('projects')
@@ -20,5 +19,13 @@ export class ProjectsController {
   @Get('')
   async getSortBy(@Query() query: string) {
     return await this.projectService.getSortBy(query);
+  }
+
+  @Post(':projectId/comment')
+  async createComment(
+    @Param('projectId') projectId: number,
+    @Body('comment') comment: CreateCommentDto,
+  ) {
+    return this.projectService.createComment(projectId, comment);
   }
 }
