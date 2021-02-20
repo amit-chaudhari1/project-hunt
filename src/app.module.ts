@@ -11,6 +11,7 @@ import { Vote } from './entities/vote.entity';
 import { Project } from './entities/project.entity';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { HashTag } from './entities/hashtags.entity';
+import { HashtagModule } from './modules/hashtag/hashtag.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HashTag } from './entities/hashtags.entity';
     }),
     UsersModule,
     ProjectsModule,
+    HashtagModule,
   ],
   controllers: [AppController],
   providers: [AppService],
