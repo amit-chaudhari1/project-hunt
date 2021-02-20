@@ -15,6 +15,7 @@ export class ProjectsController {
   async findProjectByID(@Param('id') id: string) {
     return await this.projectService.getProjectById(id);
   }
+
   @Get('')
   async getSortBy(@Query() query: string) {
     return await this.projectService.getSortBy(query);
