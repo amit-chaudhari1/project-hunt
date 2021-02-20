@@ -7,10 +7,9 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { ProjectRepository } from './../projects/projects.repository';
 import { User } from './../../entities/user.entity';
 import { Comment } from 'src/entities/comment.entity';
-import { Project } from 'src/entities/project.entity';
+import { getRepository } from 'typeorm';
 
 //TODO:solve the relative path problem
 @Injectable()
@@ -62,6 +61,13 @@ export class UsersService {
       .where('id = :id', { id: id })
       .delete()
       .execute();
+  }
+  async getCommentsByUserId(userId: number) {
+    return await getRepository(Comment)
+      .createQueryBuilder('comment')
+      .select(['comment.title', 'comment.body'])
+      .where(`comment.user = ${userId}`)
+      .getMany();
   }
   //I'm working on these
   // async getUserProject(id: number): Promise<Project[]> {
