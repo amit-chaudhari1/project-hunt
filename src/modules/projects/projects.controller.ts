@@ -1,14 +1,15 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { SimpleConsoleLogger } from 'typeorm';
-import { crateProjectDto } from './createProject.dto';
+import { createProjectDto } from './createProject.dto';
 import { ProjectsService } from './projects.service';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectService: ProjectsService) {}
   @Post()
-  async createProject(@Body() crateProjectDto: crateProjectDto) {
-    return await this.projectService.createProject(crateProjectDto);
+  async createProject(@Body() createProjectDto: createProjectDto) {
+    console.log(createProjectDto);
+    return await this.projectService.createProject(createProjectDto);
   }
 
   @Get(':id')

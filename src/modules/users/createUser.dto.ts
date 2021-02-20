@@ -13,5 +13,5 @@ export class createUserDto {
   github: string;
   youtube: string;
   facebook: string;
-  project: Project;
+  project: Project[];
 }

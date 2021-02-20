@@ -17,7 +17,6 @@ export class Project extends _BaseEntity {
   //TODO: disscuss how should i develop this relation between projects and users, many to many, but what constraints.
   //TODO: come up with a better way to implement hashtags
   //TODO: provide suitable constraint's to the entities. eg: not more than 10 hashtags, not more than 1000 char title. etc
-
   @Column({
     type: 'varchar',
     nullable: false,
@@ -62,7 +61,7 @@ export class Project extends _BaseEntity {
   })
   youtube: string;
 
-  @ManyToMany(() => User, (user) => user.projects)
+  @ManyToMany(() => User)
   @JoinTable()
   users: User[];
 

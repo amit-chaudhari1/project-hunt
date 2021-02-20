@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { create } from 'node:domain';
-import { crateProjectDto } from './createProject.dto';
+import { User } from 'src/entities/user.entity';
+// import { create } from 'node:domain';
+import { createProjectDto } from './createProject.dto';
 import { ProjectRepository } from './projects.repository';
 
 @Injectable()
@@ -9,14 +10,15 @@ export class ProjectsService {
   @InjectRepository(ProjectRepository)
   private projectRepository: ProjectRepository;
 
-  async createProject(crateProjectDto: crateProjectDto) {
+  async createProject(createProjectDto: createProjectDto) {
+    console.log(createProjectDto);
     const createdProject = await this.projectRepository
-      .create(crateProjectDto)
+      .create(createProjectDto)
       .save();
     return createdProject;
   }
   async getProjectById(id: string) {
-    return await this.projectRepository.findOne(id);
+    return await this.projectRepository.findOne(id, { relations: ['users'] });
   }
   async getSortBy(option: string) {
     switch (option) {
