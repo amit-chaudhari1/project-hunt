@@ -13,5 +13,6 @@ export class crateProjectDto {
     public youtube: string,
     public users: User[],
     public tags: HashTag[],
+    public vote: number,
   ) {}
 }

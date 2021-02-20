@@ -71,4 +71,7 @@ export class Project extends _BaseEntity {
   @Column('int', { array: true, nullable: true })
   tags: HashTag[];
   //TODO: Implement limit upto 3 users
+
+  @Column({ type: 'int', default: 0, nullable: false })
+  voteCount: number;
 }
