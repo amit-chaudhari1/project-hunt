@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from 'src/entities/comment.entity';
+import { getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
 import { CreateCommentDto, createProjectDto } from './createProject.dto';
@@ -53,5 +54,13 @@ export class ProjectsService {
       .insert()
       .values(newComment)
       .execute();
+  }
+
+  async getCommentsByProjectId(projectId: number) {
+    return await getRepository(Comment)
+      .createQueryBuilder('comment')
+      .select(['comment.title', 'comment.body'])
+      .where(`comment.project = ${projectId}`)
+      .getMany();
   }
 }

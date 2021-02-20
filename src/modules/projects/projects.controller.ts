@@ -21,11 +21,16 @@ export class ProjectsController {
     return await this.projectService.getSortBy(query);
   }
 
-  @Post(':projectId/comment')
+  @Post(':projectId/comments')
   async createComment(
     @Param('projectId') projectId: number,
     @Body('comment') comment: CreateCommentDto,
   ) {
     return this.projectService.createComment(projectId, comment);
+  }
+
+  @Get(':projectId/comments')
+  async getCommentsByProjectId(@Param('projectId') projectId: number) {
+    return this.projectService.getCommentsByProjectId(projectId);
   }
 }
