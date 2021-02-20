@@ -1,9 +1,18 @@
-import { Param, Put } from '@nestjs/common';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Param,
+  ParseIntPipe,
+  Put,
+  Query,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Delete,
+} from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createUserDto } from './createUser.dto';
-
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -14,26 +23,44 @@ export class UsersController {
     return this.userService.createUser(createUserDto);
   }
   @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<User> {
+  async getUserById(@Param('id') id: string): Promise<User[]> {
     return this.userService.findUserById(id);
   }
   @Get()
-  async getAllUsers(): Promise<User[]> {
-    return this.userService.getAllUser();
+  async getAllUsers(
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 10,
+    @Query('orderBy') order = 'username',
+  ): Promise<Pagination<User>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.userService.getAllUser(
+      {
+        page,
+        limit,
+        route: 'http://0.0.0.0:3000/users',
+      },
+      order,
+    );
   }
   @Put()
   async updateUserData(@Body() updateUserdto: createUserDto, userid: number) {
     return this.userService.updateUser(updateUserdto, userid);
   }
-  //this is stupid and not secure at all
-  @Get(':id/deactivate')
-  async softDelete(@Param('id') id: number) {
-    return this.userService.softDeleteUser(id);
+  @Delete(':id/delete')
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.deleteUser(id);
   }
-  @Get(':id/restore')
-  async restoreDelete(@Param('id') id: number) {
-    return this.userService.restoreUser(id);
-  }
-
-  //TODO: write Better Controllers.
+  //I'm working on these
+  //   @Get(':id/projects')
+  //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
+  //     return this.userService.getUserProject(id);
+  //   }
+  // @Get(':id/comments')
+  // async getUsersComments(@Param('id', ParseIntPipe) id: number) {
+  //   return this.userService.getUsersComments(id);
+  // }
+  // @Get(':id/votes')
+  // async getUsersvotes(@Param('id', ParseIntPipe) id: number) {
+  //   return this.userService.getUserVotes(id);
+  // }
 }

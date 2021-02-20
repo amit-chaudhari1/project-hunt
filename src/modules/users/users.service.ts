@@ -2,19 +2,33 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { createUserDto } from './createUser.dto';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+import { ProjectRepository } from './../projects/projects.repository';
+import { User } from './../../entities/user.entity';
+import { Comment } from 'src/entities/comment.entity';
+import { Project } from 'src/entities/project.entity';
 
 //TODO:solve the relative path problem
 @Injectable()
 export class UsersService {
   @InjectRepository(UserRepository)
   private userRepository: UserRepository;
-  //--------------------
-  async getAllUser() {
-    return this.userRepository.find();
+  //DONE:###################################
+
+  async getAllUser(
+    options: IPaginationOptions,
+    orderBy: string,
+  ): Promise<Pagination<User>> {
+    const findusers = this.userRepository.createQueryBuilder('user');
+    findusers.orderBy('user.' + orderBy, 'ASC');
+    return paginate<User>(findusers, options);
   }
-  //-------------
   async findUserById(id: string) {
-    return this.userRepository.findOne(id);
+    return await this.userRepository.find({ where: { id: id } });
   }
   //TODO:Future Feature for search implemtation
   async findUserByName(firstname: string, lastname: string) {
@@ -26,17 +40,15 @@ export class UsersService {
       })
       .execute();
   }
-  //--------------
   async createUser(createUserDto: createUserDto) {
-    return this.userRepository
+    return await this.userRepository
       .createQueryBuilder('user')
       .insert()
       .values(createUserDto)
       .execute();
   } //TODO: test if above function works
-  //-----------------
   async updateUser(updateUser: createUserDto, id: number) {
-    return this.userRepository
+    return await this.userRepository
       .createQueryBuilder('user')
       .update()
       .set(updateUser)
@@ -44,25 +56,26 @@ export class UsersService {
       .execute();
   }
 
-  async softDeleteUser(id: number) {
+  async deleteUser(id: number) {
     return this.userRepository
-      .createQueryBuilder()
-      .softDelete()
+      .createQueryBuilder('user')
       .where('id = :id', { id: id })
-      .execute();
-  }
-
-  async hardDeleteuser(id: number) {
-    return this.userRepository
-      .createQueryBuilder()
       .delete()
-      .where('id = :id', { id: id })
       .execute();
   }
-  async restoreUser(id: number) {
-    return this.userRepository
-      .createQueryBuilder()
-      .restore()
-      .where('id = :id', { id: id });
-  }
+  //I'm working on these
+  // async getUserProject(id: number): Promise<Project[]> {
+  //   const q = this.userRepository
+  //     .createQueryBuilder('user')
+  //     .where('user.id = :id', { id: id })
+  //     .select(['user.project'])
+  //     .getMany();
+  //   return q;
+  // }
+  // async getUsersComments(id:number): Promise<Comment[]> {
+  //   return;
+  // }
+  // async getUsersVotes(id:number):Promise<Projects[]> {
+  //   return;
+  // }
 }
