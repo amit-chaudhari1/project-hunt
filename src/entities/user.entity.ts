@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, OneToOne } from 'typeorm';
 import { _BaseEntity } from './base.entity';
 import { Image } from './image.entity';
 import { Project } from './project.entity';
@@ -65,8 +65,8 @@ export class User extends _BaseEntity {
   })
   facebook: string;
 
-  @ManyToOne(() => Project, (project) => project.users)
-  project: Project;
+  @ManyToMany(() => Project, (project) => project.users)
+  projects: Project[];
   //TODO: come up with a better way to implement social_media Links
   //TODO: provide suitable constraint's to the entities. eg: not more than 10 hashtags, not more than 1000 char title. etc
 }
