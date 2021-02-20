@@ -1,10 +1,15 @@
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 import { _BaseEntity } from './base.entity';
 import { HashTag } from './hashtags.entity';
 import { Image } from './image.entity';
 import { User } from './user.entity';
-// import { Image } from './image.entity';
-// import { User } from './user.entity';
 
 @Entity()
 export class Project extends _BaseEntity {
@@ -57,9 +62,8 @@ export class Project extends _BaseEntity {
   })
   youtube: string;
 
-  @OneToMany(() => User, (user) => user.project)
-  @JoinColumn({ name: 'users' })
-  @Column('int', { array: true, nullable: true })
+  @ManyToMany(() => User, (user) => user.projects)
+  @JoinTable()
   users: User[];
 
   @OneToMany(() => HashTag, (hashTag) => hashTag.project)
