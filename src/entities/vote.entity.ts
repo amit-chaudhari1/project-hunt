@@ -1,18 +1,13 @@
-import { Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { _BaseEntity } from './base.entity';
 import { Project } from './project.entity';
 import { User } from './user.entity';
 
 @Entity()
 export class Vote extends _BaseEntity {
-  @OneToOne(() => User)
-  @JoinColumn({ name: 'user' })
+  @ManyToOne(() => User, (user) => user.votes)
   user: User;
 
-  @OneToOne(() => Project)
-  @JoinColumn({ name: 'project' })
+  @ManyToOne(() => Project, (project) => project.votes)
   project: Project;
-
-  //TODO: single votes!!!
-  //this might be a reason to future troubles...
 }

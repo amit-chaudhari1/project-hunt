@@ -63,19 +63,17 @@ export class UsersService {
       .delete()
       .execute();
   }
-  //I'm working on these
-  // async getUserProject(id: number): Promise<Project[]> {
-  //   const q = this.userRepository
-  //     .createQueryBuilder('user')
-  //     .where('user.id = :id', { id: id })
-  //     .select(['user.project'])
-  //     .getMany();
-  //   return q;
-  // }
-  // async getUsersComments(id:number): Promise<Comment[]> {
-  //   return;
-  // }
-  // async getUsersVotes(id:number):Promise<Projects[]> {
-  //   return;
-  // }
+
+  async getUserProject(id: number) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: id })
+      .leftJoinAndSelect('user.projects', 'project')
+      .getMany();
+  }
+
+  async getUsersVotes(id: number): Promise<number> {
+    //SUM UP all the votes on the projects of that user and return the total value for a user.
+    return 12;
+  }
 }

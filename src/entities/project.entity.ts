@@ -10,6 +10,7 @@ import { _BaseEntity } from './base.entity';
 import { HashTag } from './hashtags.entity';
 import { Image } from './image.entity';
 import { User } from './user.entity';
+import { Vote } from './vote.entity';
 
 @Entity()
 export class Project extends _BaseEntity {
@@ -61,7 +62,7 @@ export class Project extends _BaseEntity {
   })
   youtube: string;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.projects)
   @JoinTable()
   users: User[];
 
@@ -71,6 +72,6 @@ export class Project extends _BaseEntity {
   tags: HashTag[];
   //TODO: Implement limit upto 3 users
 
-  @Column({ type: 'int', default: 0, nullable: false })
-  voteCount: number;
+  @OneToMany(() => Vote, (vote) => vote.project)
+  votes: Vote[];
 }
