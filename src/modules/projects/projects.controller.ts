@@ -59,7 +59,7 @@ export class ProjectsController {
     return this.projectService.getCommentsByProjectId(projectId, {
       page,
       limit,
-      route: 'http://0.0.0.0:3000/users',
+      route: 'http://0.0.0.0:3000/projects',
     });
   }
 }

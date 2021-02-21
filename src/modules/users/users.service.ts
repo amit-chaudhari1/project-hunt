@@ -62,12 +62,13 @@ export class UsersService {
       .delete()
       .execute();
   }
-  async getCommentsByUserId(userId: number) {
-    return await getRepository(Comment)
+
+  async getCommentsByUserId(userId: number, options: IPaginationOptions) {
+    const commentsQuery = getRepository(Comment)
       .createQueryBuilder('comment')
-      .select(['comment.title', 'comment.body'])
-      .where(`comment.user = ${userId}`)
-      .getMany();
+      .where(`comment.user = ${userId}`);
+
+    return await paginate(commentsQuery, options);
   }
 
   async getUserProject(id: number) {

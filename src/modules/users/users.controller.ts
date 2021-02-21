@@ -50,9 +50,18 @@ export class UsersController {
   async deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.deleteUser(id);
   }
-  @Get(':id/comments')
-  async getCommentsByUserId(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.getCommentsByUserId(id);
+
+  @Get(':userId/comments')
+  async getCommentsByUserId(
+    @Param('userId') userId: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+  ) {
+    return this.userService.getCommentsByUserId(userId, {
+      page,
+      limit,
+      route: 'http://0.0.0.0:3000/users',
+    });
   }
 
   @Get(':id/projects')
