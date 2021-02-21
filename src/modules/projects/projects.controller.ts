@@ -8,7 +8,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createProjectDto } from './createProject.dto';
+import { createProjectDto, CreateCommentDto } from './createProject.dto';
 import { ProjectsService } from './projects.service';
 
 @Controller('projects')
