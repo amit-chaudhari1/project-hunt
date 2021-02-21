@@ -54,7 +54,7 @@ export class ProjectsService {
           user: userid,
           project: projectid,
         })
-        .getOneOrFail();
+        .getOne();
       return 'Already upvoted!!!';
     } catch (e) {
       //the user never upvoted...
