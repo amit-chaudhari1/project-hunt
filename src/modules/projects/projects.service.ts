@@ -45,38 +45,43 @@ export class ProjectsService {
     }
   }
   async upvote(userid: number, projectid: number) {
-    try {
-      await getConnection()
-        .createQueryBuilder()
-        .select('vote')
-        .from(Vote, 'vote')
-        .where('vote.user = :user AND vote.project = :project', {
-          user: userid,
-          project: projectid,
-        })
-        .getOne();
-      return 'Already upvoted!!!';
-    } catch (e) {
-      //the user never upvoted...
-      //register the upvote and update the counts
-      const user = await getConnection()
-        .getRepository(User)
-        .createQueryBuilder('user')
-        .where('user.id = :id', { id: userid })
-        .getOne();
-      const project = await getConnection()
-        .getRepository(Project)
-        .createQueryBuilder('project')
-        .where('project.id = :id', { id: projectid })
-        .getOne();
-      getConnection()
-        .createQueryBuilder()
-        .insert()
-        .into(Vote)
-        .values([{ user: user, project: project }])
-        .execute();
-      return 'Upvotes!';
-    } finally {
+    const user = await getConnection()
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: userid })
+      .getOne();
+    const project = await getConnection()
+      .getRepository(Project)
+      .createQueryBuilder('project')
+      .where('project.id = :id', { id: projectid })
+      .getOne();
+
+    if (!user || !project) {
+      return 'undefined user or project';
+    } else {
+      try {
+        await getConnection()
+          .createQueryBuilder()
+          .select('vote')
+          .from(Vote, 'vote')
+          .where('vote.user = :user AND vote.project = :project', {
+            user: userid,
+            project: projectid,
+          })
+          .getOneOrFail();
+        return 'AlreadyUPvoted';
+      } catch (e) {
+        //the user never upvoted...
+        //register the upvote and update the counts
+        getConnection()
+          .createQueryBuilder()
+          .insert()
+          .into(Vote)
+          .values([{ user: user, project: project }])
+          .execute();
+        return 'Upvotes!';
+      } finally {
+      }
     }
   }
 

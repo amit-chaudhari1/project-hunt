@@ -78,7 +78,6 @@ export class UsersService {
       .leftJoinAndSelect('user.projects', 'project')
       .getMany();
   }
-
   // async getUserProject(id: number): Promise<Project[]> {
   //   const q = this.userRepository
   //     .createQueryBuilder('user')
