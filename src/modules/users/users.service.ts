@@ -69,7 +69,15 @@ export class UsersService {
       .where(`comment.user = ${userId}`)
       .getMany();
   }
-  //I'm working on these
+
+  async getUserProject(id: number) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: id })
+      .leftJoinAndSelect('user.projects', 'project')
+      .getMany();
+  }
+
   // async getUserProject(id: number): Promise<Project[]> {
   //   const q = this.userRepository
   //     .createQueryBuilder('user')
@@ -84,17 +92,8 @@ export class UsersService {
   // async getUsersVotes(id:number):Promise<Projects[]> {
   //   return;
   // }
-
-  async getUserProject(id: number) {
-    return this.userRepository
-      .createQueryBuilder('user')
-      .where('user.id = :id', { id: id })
-      .leftJoinAndSelect('user.projects', 'project')
-      .getMany();
-  }
-
-  async getUsersVotes(id: number): Promise<number> {
-    //SUM UP all the votes on the projects of that user and return the total value for a user.
-    return 12;
-  }
+  // async getUsersVotes(id: number): Promise<number> {
+  //   //SUM UP all the votes on the projects of that user and return the total value for a user.
+  //   return 12;
+  // }
 }

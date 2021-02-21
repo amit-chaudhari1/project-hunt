@@ -8,9 +8,9 @@ import { CreateCommentDto, createProjectDto } from './createProject.dto';
 import { User } from 'src/entities/user.entity';
 import { Vote } from 'src/entities/vote.entity';
 import { getConnection } from 'typeorm';
-import { createProjectDto } from './createProject.dto';
 import { ProjectRepository } from './projects.repository';
 import { Project } from 'src/entities/project.entity';
+
 @Injectable()
 export class ProjectsService {
   @InjectRepository(ProjectRepository)
@@ -86,6 +86,7 @@ export class ProjectsService {
   //   const voteCount = query.voteCount;
   //   return voteCount;
   // }
+
   async createComment(projectId: number, comment: CreateCommentDto) {
     const project = await this.projectRepository.findOne(projectId);
     const user = await this.userRepository.findOne(comment.user);

@@ -7,8 +7,7 @@ import {
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
-import { get } from 'http';
-import { SimpleConsoleLogger } from 'typeorm';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createProjectDto } from './createProject.dto';
 import { ProjectsService } from './projects.service';
 

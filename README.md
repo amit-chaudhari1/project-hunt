@@ -45,8 +45,8 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
 - [ ] Proper Documentation for entity relation structure.
 - [ ] Proper Documentation for controllers, modules and services.
 - [ ] Write Better Controllers, for users and Projects.
-- [ ] The user & project service functions that return a list of users/projects should be paginated.
-- [ ]
+- [ ] The user service functions that return a list of users should be paginated.
+- [ ] The project service functions that return a list of users/projects should be paginated.
 - [ ] Implement Filters like sortby, alphabetical, date created, most updated and so on.
 - [x] Constraints for entities. Currently, most of the stuff is straight out string. I think we can improve on that.
 - [ ] Implement Hash tags entities.

@@ -54,21 +54,17 @@ export class UsersController {
   async getCommentsByUserId(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getCommentsByUserId(id);
   }
-  //I'm working on these
-  //   @Get(':id/projects')
-  //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
-  //     return this.userService.getUserProject(id);
-  //   }
+
   @Get(':id/projects')
   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUserProject(id);
   }
-  // @Get(':id/comments')
-  // async getUsersComments(@Param('id', ParseIntPipe) id: number) {
-  //   return this.userService.getUsersComments(id);
-  // }
   // @Get(':id/votes')
   // async getUsersvotes(@Param('id', ParseIntPipe) id: number) {
   //   return this.userService.getUserVotes(id);
   // }
+  //   @Get(':id/projects')
+  //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
+  //     return this.userService.getUserProject(id);
+  //   }
 }

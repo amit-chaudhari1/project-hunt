@@ -77,7 +77,6 @@ export class User extends _BaseEntity {
   @ManyToMany(() => Project, (project) => project.users)
   projects: Project[];
   //TODO: come up with a better way to implement social_media Links
-  //TODO: provide suitable constraint's to the entities. eg: not more than 10 hashtags, not more than 1000 char title. etc
 
   @OneToMany(() => Vote, (vote) => vote.user)
   votes: Vote[];
