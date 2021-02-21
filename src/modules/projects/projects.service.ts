@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { Comment } from 'src/entities/comment.entity';
-import { getRepository } from 'typeorm';
+import { getManager, getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
 import { CreateCommentDto, createProjectDto } from './createProject.dto';
@@ -32,15 +32,36 @@ export class ProjectsService {
       relations: ['users'],
     });
   }
+  async getPopularProjects() {
+    // ! Is not returning relations. And currently only returning few properties
+    const result = await getManager().query(
+      `
+      SELECT
+      PROJECT.id, PROJECT.title, PROJECT.description, PROJECT.tagline,
+      COUNT("projectId") AS VoteCount
+  FROM
+      vote
+      Right JOIN PROJECT ON "projectId" = project.id
+  GROUP BY
+      project.id
+  ORDER BY
+      VoteCount DESC;
+      
+      `,
+    );
+    console.log(result);
+    return result;
+  }
   async getSortBy(option: string) {
     switch (option) {
       case 'createdAt':
+        // ! Not relating Relations
         return await this.projectRepository
           .createQueryBuilder('project')
           .orderBy('project.createdAt', 'DESC')
           .execute();
       case 'popular':
-        //TODO : Query to sort as per votes
+        return this.getPopularProjects();
         break;
     }
   }

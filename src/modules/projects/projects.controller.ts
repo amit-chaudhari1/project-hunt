@@ -25,7 +25,7 @@ export class ProjectsController {
   }
 
   @Get('')
-  async getSortBy(@Query() query: string) {
+  async getSortBy(@Query('order') query: string) {
     return await this.projectService.getSortBy(query);
   }
 
