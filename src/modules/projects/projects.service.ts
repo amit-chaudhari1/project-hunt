@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { Comment } from 'src/entities/comment.entity';
 import { getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
@@ -104,11 +105,11 @@ export class ProjectsService {
       .execute();
   }
 
-  async getCommentsByProjectId(projectId: number) {
-    return await getRepository(Comment)
+  async getCommentsByProjectId(projectId: number, options: IPaginationOptions) {
+    const commentsQuery = getRepository(Comment)
       .createQueryBuilder('comment')
-      .select(['comment.title', 'comment.body'])
-      .where(`comment.project = ${projectId}`)
-      .getMany();
+      .where(`comment.project = ${projectId}`);
+
+    return await paginate(commentsQuery, options);
   }
 }

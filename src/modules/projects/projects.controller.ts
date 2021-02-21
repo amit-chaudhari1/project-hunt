@@ -51,7 +51,15 @@ export class ProjectsController {
   }
 
   @Get(':projectId/comments')
-  async getCommentsByProjectId(@Param('projectId') projectId: number) {
-    return this.projectService.getCommentsByProjectId(projectId);
+  async getCommentsByProjectId(
+    @Param('projectId') projectId: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+  ) {
+    return this.projectService.getCommentsByProjectId(projectId, {
+      page,
+      limit,
+      route: 'http://0.0.0.0:3000/users',
+    });
   }
 }
