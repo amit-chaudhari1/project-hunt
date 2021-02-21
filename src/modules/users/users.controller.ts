@@ -50,6 +50,15 @@ export class UsersController {
   async deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.deleteUser(id);
   }
+  @Get(':id/comments')
+  async getCommentsByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getCommentsByUserId(id);
+  }
+  //I'm working on these
+  //   @Get(':id/projects')
+  //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
+  //     return this.userService.getUserProject(id);
+  //   }
   @Get(':id/projects')
   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUserProject(id);

@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Comment } from 'src/entities/comment.entity';
+import { getRepository } from 'typeorm';
+import { UserRepository } from '../users/user.repository';
+import { CommentRepository } from './comment.repository';
+import { CreateCommentDto, createProjectDto } from './createProject.dto';
 import { User } from 'src/entities/user.entity';
 import { Vote } from 'src/entities/vote.entity';
 import { getConnection } from 'typeorm';
@@ -10,6 +15,10 @@ import { Project } from 'src/entities/project.entity';
 export class ProjectsService {
   @InjectRepository(ProjectRepository)
   private projectRepository: ProjectRepository;
+  @InjectRepository(UserRepository)
+  private userRepository: UserRepository;
+  @InjectRepository(CommentRepository)
+  private commentRepository: CommentRepository;
 
   async createProject(createProjectDto: createProjectDto) {
     const createdProject = await this.projectRepository
@@ -77,4 +86,28 @@ export class ProjectsService {
   //   const voteCount = query.voteCount;
   //   return voteCount;
   // }
+  async createComment(projectId: number, comment: CreateCommentDto) {
+    const project = await this.projectRepository.findOne(projectId);
+    const user = await this.userRepository.findOne(comment.user);
+    console.log(this.userRepository);
+    console.log({ user });
+    const newComment = new Comment();
+    newComment.title = comment.title;
+    newComment.body = comment.body;
+    newComment.user = user;
+    newComment.project = project;
+    return await this.commentRepository
+      .createQueryBuilder('comment')
+      .insert()
+      .values(newComment)
+      .execute();
+  }
+
+  async getCommentsByProjectId(projectId: number) {
+    return await getRepository(Comment)
+      .createQueryBuilder('comment')
+      .select(['comment.title', 'comment.body'])
+      .where(`comment.project = ${projectId}`)
+      .getMany();
+  }
 }

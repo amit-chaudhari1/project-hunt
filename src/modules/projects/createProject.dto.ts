@@ -14,3 +14,10 @@ export class createProjectDto {
   tags: HashTag[];
   vote: number;
 }
+
+export class CreateCommentDto {
+  title: string;
+  body: string;
+  project: string;
+  user: string;
+}
