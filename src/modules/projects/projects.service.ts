@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { Comment } from 'src/entities/comment.entity';
-import { getManager, getRepository } from 'typeorm';
+import { createQueryBuilder, getManager, getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
 import { createCommentDto, createProjectDto } from './createProject.dto';
@@ -11,6 +11,7 @@ import { Vote } from 'src/entities/vote.entity';
 import { getConnection } from 'typeorm';
 import { ProjectRepository } from './projects.repository';
 import { Project } from 'src/entities/project.entity';
+import { HashTag } from 'src/entities/hashtags.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -30,7 +31,7 @@ export class ProjectsService {
 
   async getProjectById(id: string) {
     return await this.projectRepository.findOne(id, {
-      relations: ['users'],
+      relations: ['users', 'tags'],
     });
   }
 
@@ -55,17 +56,37 @@ export class ProjectsService {
     return result;
   }
 
-  async getSortBy(option: string) {
-    switch (option) {
-      case 'createdAt':
-        // ! Not relating Relations
-        return await this.projectRepository
-          .createQueryBuilder('project')
-          .orderBy('project.createdAt', 'DESC')
-          .execute();
+  async getProjects(
+    sortBy: string,
+    name: string,
+    tag: string,
+    options: IPaginationOptions,
+  ) {
+    let getProjectsQuery = getRepository(Project).createQueryBuilder('project');
+    if (name) {
+      getProjectsQuery = getProjectsQuery.andWhere(
+        'LOWER(project.title) LIKE LOWER(:name)',
+        {
+          name: `%${name}%`,
+        },
+      );
+    }
+
+    if (tag) {
+      getProjectsQuery = getProjectsQuery
+        .leftJoin('project.tags', 'tags')
+        .where('tags.tag = :tag', { tag });
+    }
+    switch (sortBy) {
+      case 'new':
+        return await paginate(
+          getProjectsQuery.orderBy('project.createdAt', 'DESC'),
+          options,
+        );
       case 'popular':
-        return this.getPopularProjects();
-        break;
+        return await this.getPopularProjects();
+      case 'trending':
+        return await this.getPopularProjects();
     }
   }
 

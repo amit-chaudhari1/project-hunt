@@ -26,8 +26,18 @@ export class ProjectsController {
   }
 
   @Get('')
-  async getSortBy(@Query('order') query: string) {
-    return await this.projectService.getSortBy(query);
+  async getProjects(
+    @Query('sortBy') sortBy: string,
+    @Query('name') name: string,
+    @Query('tag') tag: string,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+  ) {
+    return await this.projectService.getProjects(sortBy, name, tag, {
+      page,
+      limit,
+      route: 'http://0.0.0.0:3000/projects',
+    });
   }
 
   // @Get(':id')

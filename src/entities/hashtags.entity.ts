@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
 import { _BaseEntity } from './base.entity';
 import { Project } from './project.entity';
 
@@ -8,9 +8,10 @@ export class HashTag extends _BaseEntity {
     type: 'varchar',
     length: 25,
     nullable: false,
+    unique: true,
   })
   tag: string;
 
-  @ManyToOne(() => Project, (project) => project.tags)
-  project: Project;
+  @ManyToMany(() => Project, (project) => project.tags)
+  projects: Project[];
 }

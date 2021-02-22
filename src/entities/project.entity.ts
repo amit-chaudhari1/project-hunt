@@ -66,9 +66,8 @@ export class Project extends _BaseEntity {
   @JoinTable()
   users: User[];
 
-  @OneToMany(() => HashTag, (hashTag) => hashTag.project)
-  @JoinColumn({ name: 'tags' })
-  @Column('int', { array: true, nullable: true })
+  @ManyToMany(() => HashTag, (hashTag) => hashTag.projects)
+  @JoinTable()
   tags: HashTag[];
   //TODO: Implement limit upto 3 users
 
