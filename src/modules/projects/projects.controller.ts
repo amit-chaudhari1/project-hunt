@@ -14,6 +14,7 @@ import { ProjectsService } from './projects.service';
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectService: ProjectsService) {}
+
   @Post()
   async createProject(@Body() createProjectDto: createProjectDto) {
     return await this.projectService.createProject(createProjectDto);
@@ -35,16 +36,13 @@ export class ProjectsController {
   // }
 
   @Get(':id/upvote')
-  async upvote(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('userid', ParseIntPipe) userid: number,
-  ) {
+  async upvote(@Param('id') id: string, @Query('userid') userid: string) {
     return this.projectService.upvote(userid, id);
   }
 
   @Post(':projectId/comments')
   async createComment(
-    @Param('projectId') projectId: number,
+    @Param('projectId') projectId: string,
     @Body('comment') comment: createCommentDto,
   ) {
     return this.projectService.createComment(projectId, comment);
@@ -52,7 +50,7 @@ export class ProjectsController {
 
   @Get(':projectId/comments')
   async getCommentsByProjectId(
-    @Param('projectId') projectId: number,
+    @Param('projectId') projectId: string,
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
   ) {

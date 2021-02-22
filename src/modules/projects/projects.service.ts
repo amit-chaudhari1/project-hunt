@@ -27,11 +27,13 @@ export class ProjectsService {
       .save();
     return createdProject;
   }
+
   async getProjectById(id: string) {
     return await this.projectRepository.findOne(id, {
       relations: ['users'],
     });
   }
+
   async getPopularProjects() {
     // ! Is not returning relations. And currently only returning few properties
     const result = await getManager().query(
@@ -52,6 +54,7 @@ export class ProjectsService {
     console.log(result);
     return result;
   }
+
   async getSortBy(option: string) {
     switch (option) {
       case 'createdAt':
@@ -65,7 +68,8 @@ export class ProjectsService {
         break;
     }
   }
-  async upvote(userid: number, projectid: number) {
+
+  async upvote(userid: string, projectid: string) {
     const user = await getConnection()
       .getRepository(User)
       .createQueryBuilder('user')
@@ -114,7 +118,7 @@ export class ProjectsService {
   //   return voteCount;
   // }
 
-  async createComment(projectId: number, comment: createCommentDto) {
+  async createComment(projectId: string, comment: createCommentDto) {
     const project = await this.projectRepository.findOne(projectId);
     const user = await this.userRepository.findOne(comment.user);
     console.log(this.userRepository);
@@ -131,10 +135,10 @@ export class ProjectsService {
       .execute();
   }
 
-  async getCommentsByProjectId(projectId: number, options: IPaginationOptions) {
+  async getCommentsByProjectId(projectId: string, options: IPaginationOptions) {
     const commentsQuery = getRepository(Comment)
       .createQueryBuilder('comment')
-      .where(`comment.project = ${projectId}`);
+      .where('comment.project = :projectId', { projectId: projectId });
 
     return await paginate(commentsQuery, options);
   }

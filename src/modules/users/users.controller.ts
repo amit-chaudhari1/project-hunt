@@ -18,14 +18,17 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
+
   @Post()
   async createUser(@Body() createUserDto: createUserDto) {
     return this.userService.createUser(createUserDto);
   }
+
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<User[]> {
     return this.userService.findUserById(id);
   }
+
   @Get()
   async getAllUsers(
     @Query('page', ParseIntPipe) page = 1,
@@ -42,18 +45,20 @@ export class UsersController {
       order,
     );
   }
+
   @Put()
-  async updateUserData(@Body() updateUserdto: createUserDto, userid: number) {
+  async updateUserData(@Body() updateUserdto: createUserDto, userid: string) {
     return this.userService.updateUser(updateUserdto, userid);
   }
+
   @Delete(':id/delete')
-  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+  async deleteUser(@Param('id') id: string) {
     return this.userService.deleteUser(id);
   }
 
   @Get(':userId/comments')
   async getCommentsByUserId(
-    @Param('userId') userId: number,
+    @Param('userId') userId: string,
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
   ) {
@@ -65,9 +70,10 @@ export class UsersController {
   }
 
   @Get(':id/projects')
-  async getUserProjects(@Param('id', ParseIntPipe) id: number) {
+  async getUserProjects(@Param('id') id: string) {
     return this.userService.getUserProject(id);
   }
+
   // @Get(':id/votes')
   // async getUsersvotes(@Param('id', ParseIntPipe) id: number) {
   //   return this.userService.getUserVotes(id);

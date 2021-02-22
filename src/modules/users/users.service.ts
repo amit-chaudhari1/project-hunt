@@ -26,9 +26,11 @@ export class UsersService {
     findusers.orderBy('user.' + orderBy, 'ASC');
     return paginate<User>(findusers, options);
   }
+
   async findUserById(id: string) {
     return await this.userRepository.find({ where: { id: id } });
   }
+
   //TODO:Future Feature for search implemtation
   async findUserByName(firstname: string, lastname: string) {
     return this.userRepository
@@ -39,6 +41,7 @@ export class UsersService {
       })
       .execute();
   }
+
   async createUser(createUserDto: createUserDto) {
     return await this.userRepository
       .createQueryBuilder('user')
@@ -46,7 +49,8 @@ export class UsersService {
       .values(createUserDto)
       .execute();
   } //TODO: test if above function works
-  async updateUser(updateUser: createUserDto, id: number) {
+
+  async updateUser(updateUser: createUserDto, id: string) {
     return await this.userRepository
       .createQueryBuilder('user')
       .update()
@@ -55,7 +59,7 @@ export class UsersService {
       .execute();
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     return this.userRepository
       .createQueryBuilder('user')
       .where('id = :id', { id: id })
@@ -63,15 +67,15 @@ export class UsersService {
       .execute();
   }
 
-  async getCommentsByUserId(userId: number, options: IPaginationOptions) {
+  async getCommentsByUserId(userId: string, options: IPaginationOptions) {
     const commentsQuery = getRepository(Comment)
       .createQueryBuilder('comment')
-      .where(`comment.user = ${userId}`);
+      .where('comment.user = :userId', { userId: userId });
 
     return await paginate(commentsQuery, options);
   }
 
-  async getUserProject(id: number) {
+  async getUserProject(id: string) {
     return this.userRepository
       .createQueryBuilder('user')
       .where('user.id = :id', { id: id })
