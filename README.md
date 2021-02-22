@@ -2,6 +2,8 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
+[![Node.js CI](https://github.com/amitchaudhari9121/project-hunt/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/amitchaudhari9121/project-hunt/actions/workflows/node.js.yml)
+
 ## Description
 
 Repository for the backend of the project hunt website.
@@ -36,9 +38,23 @@ Welcome! If you want to collaborate, please fork this repo and play around with 
 
     `postgres=# create user hotshot_dev with encrypted password 'passwd';`
 
+  - connect to the created db as sudo
+
+    `\c projecthunt`
+
+    If you want to connect to the db as hotshot_dev run this instead of the above command
+
+    `\c projecthunt hotshot_dev`
+
+  - After creating new DB, enable uuid v_4 extension by running the following command inside your new DB.
+
+    `projecthunt=# CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+
   - grant persmissions to `hotshot_dev`
 
     `postgres=# grant all privileges on database projecthunt to hotshot_dev;`
+
+---
 
 ## TODO
 
