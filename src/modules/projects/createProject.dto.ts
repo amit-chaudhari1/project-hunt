@@ -1,6 +1,6 @@
-import { HashTag } from 'src/entities/hashtags.entity';
-import { Image } from 'src/entities/image.entity';
-import { User } from 'src/entities/user.entity';
+import { HashTag } from './../../entities/hashtags.entity';
+import { Image } from './../../entities/image.entity';
+import { User } from './../../entities/user.entity';
 
 export class createProjectDto {
   title: string;

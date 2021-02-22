@@ -1,5 +1,5 @@
-import { Image } from 'src/entities/image.entity';
-import { Project } from 'src/entities/project.entity';
+import { Image } from './../../entities/image.entity';
+import { Project } from './../../entities/project.entity';
 
 export class createUserDto {
   username: string;

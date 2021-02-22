@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { ProjectsController } from './projects.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Project } from 'src/entities/project.entity';
+import { Project } from './../../entities/project.entity';
 import { UsersModule } from '../users/users.module';
-import { User } from 'src/entities/user.entity';
-import { Comment } from 'src/entities/comment.entity';
+import { User } from './../../entities/user.entity';
+import { Comment } from './../../entities/comment.entity';
 
 @Module({
   imports: [

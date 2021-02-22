@@ -1,24 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
-import { Comment } from 'src/entities/comment.entity';
+import { Comment } from './../../entities/comment.entity';
 import { createQueryBuilder, getManager, getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
 import { createCommentDto, createProjectDto } from './createProject.dto';
-import { User } from 'src/entities/user.entity';
-import { Vote } from 'src/entities/vote.entity';
+import { User } from './../../entities/user.entity';
+import { Vote } from './../../entities/vote.entity';
 import { getConnection } from 'typeorm';
 import { ProjectRepository } from './projects.repository';
-import { Project } from 'src/entities/project.entity';
+import { Project } from './../../entities/project.entity';
 import { HashTag } from 'src/entities/hashtags.entity';
 
 @Injectable()
 export class ProjectsService {
   @InjectRepository(ProjectRepository)
   private projectRepository: ProjectRepository;
-  @InjectRepository(UserRepository)
-  private userRepository: UserRepository;
   @InjectRepository(CommentRepository)
   private commentRepository: CommentRepository;
 
@@ -141,8 +139,9 @@ export class ProjectsService {
 
   async createComment(projectId: string, comment: createCommentDto) {
     const project = await this.projectRepository.findOne(projectId);
-    const user = await this.userRepository.findOne(comment.user);
-    console.log(this.userRepository);
+    const user = await getConnection()
+      .getRepository(User)
+      .findOne(comment.user);
     console.log({ user });
     const newComment = new Comment();
     newComment.title = comment.title;

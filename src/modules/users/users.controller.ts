@@ -9,7 +9,7 @@ import {
   Post,
   Delete,
 } from '@nestjs/common';
-import { User } from 'src/entities/user.entity';
+import { User } from './../../entities/user.entity';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createUserDto } from './createUser.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
