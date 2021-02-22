@@ -8,7 +8,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createProjectDto, CreateCommentDto } from './createProject.dto';
+import { createProjectDto, createCommentDto } from './createProject.dto';
 import { ProjectsService } from './projects.service';
 
 @Controller('projects')
@@ -45,7 +45,7 @@ export class ProjectsController {
   @Post(':projectId/comments')
   async createComment(
     @Param('projectId') projectId: number,
-    @Body('comment') comment: CreateCommentDto,
+    @Body('comment') comment: createCommentDto,
   ) {
     return this.projectService.createComment(projectId, comment);
   }

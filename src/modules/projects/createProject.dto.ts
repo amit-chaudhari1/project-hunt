@@ -15,7 +15,7 @@ export class createProjectDto {
   vote: number;
 }
 
-export class CreateCommentDto {
+export class createCommentDto {
   title: string;
   body: string;
   project: string;

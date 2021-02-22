@@ -5,7 +5,7 @@ import { Comment } from 'src/entities/comment.entity';
 import { getManager, getRepository } from 'typeorm';
 import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
-import { CreateCommentDto, createProjectDto } from './createProject.dto';
+import { createCommentDto, createProjectDto } from './createProject.dto';
 import { User } from 'src/entities/user.entity';
 import { Vote } from 'src/entities/vote.entity';
 import { getConnection } from 'typeorm';
@@ -114,7 +114,7 @@ export class ProjectsService {
   //   return voteCount;
   // }
 
-  async createComment(projectId: number, comment: CreateCommentDto) {
+  async createComment(projectId: number, comment: createCommentDto) {
     const project = await this.projectRepository.findOne(projectId);
     const user = await this.userRepository.findOne(comment.user);
     console.log(this.userRepository);
