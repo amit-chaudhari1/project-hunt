@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
-import { Comment } from './../../entities/comment.entity';
-import { createQueryBuilder, getManager, getRepository } from 'typeorm';
-import { UserRepository } from '../users/user.repository';
 import { CommentRepository } from './comment.repository';
 import { createCommentDto, createProjectDto } from './createProject.dto';
-import { User } from './../../entities/user.entity';
-import { Vote } from './../../entities/vote.entity';
-import { getConnection } from 'typeorm';
+import { getConnection, getManager, getRepository } from 'typeorm';
 import { ProjectRepository } from './projects.repository';
-import { Project } from './../../entities/project.entity';
-import { HashTag } from 'src/entities/hashtags.entity';
+import { Comment } from 'src/entities/comment.entity';
+import { Project } from 'src/entities/project.entity';
+import { User } from 'src/entities/user.entity';
+import { Vote } from 'src/entities/vote.entity';
 
 @Injectable()
 export class ProjectsService {

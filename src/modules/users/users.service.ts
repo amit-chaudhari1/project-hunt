@@ -7,10 +7,9 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { User } from './../../entities/user.entity';
-import { Comment } from './../../entities/comment.entity';
 import { getRepository } from 'typeorm';
-
+import { User } from 'src/entities/user.entity';
+import { Comment } from 'src/entities/comment.entity';
 //TODO:solve the relative path problem
 @Injectable()
 export class UsersService {
