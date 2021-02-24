@@ -58,6 +58,10 @@ export class ProjectsController {
     return this.projectService.createComment(projectId, comment);
   }
 
+  @Get(':projectId/votes')
+  async getVoteOnProject(@Param('projectId') projectId : string){
+    return this.projectService.getVoteOnProject(projectId);
+  }
   @Get(':projectId/comments')
   async getCommentsByProjectId(
     @Param('projectId') projectId: string,

@@ -176,4 +176,9 @@ export class ProjectsService {
 
     return await paginate(commentsQuery, options);
   }
+
+  async getVoteOnProject(projectId : String){
+    const voteCount = await Activity.find({where : {project:{ id : projectId }}});
+    return voteCount[0]["voteCount"];
+  }
 }
