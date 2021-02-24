@@ -1,3 +1,5 @@
+import { Project } from 'src/entities/project.entity';
+import { Vote } from 'src/entities/vote.entity';
 import { HashTag } from './../../entities/hashtags.entity';
 import { Image } from './../../entities/image.entity';
 import { User } from './../../entities/user.entity';

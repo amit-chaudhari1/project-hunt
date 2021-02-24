@@ -23,7 +23,7 @@ export class ProjectsController {
   @Get(':id')
   async findProjectByID(@Param('id') id: string) {
     return await this.projectService.getProjectById(id);
-  }
+  } 
 
   @Get('')
   async getProjects(
