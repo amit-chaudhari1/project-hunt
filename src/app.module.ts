@@ -12,6 +12,7 @@ import { Project } from './entities/project.entity';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { HashTag } from './entities/hashtags.entity';
 import { HashtagModule } from './modules/hashtag/hashtag.module';
+import { Activity } from './entities/activity.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,16 @@ import { HashtagModule } from './modules/hashtag/hashtag.module';
       database: 'projecthunt',
       username: 'hotshot_dev',
       password: 'passwd',
-      entities: [_BaseEntity, Comment, Image, User, Vote, Project, HashTag],
+      entities: [
+        _BaseEntity,
+        Comment,
+        Image,
+        User,
+        Vote,
+        Project,
+        HashTag,
+        Activity,
+      ],
       //TODO: document the entity relations.
       //TODO: Hashtag entity discussion.
       synchronize: true,

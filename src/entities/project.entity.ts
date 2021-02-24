@@ -5,12 +5,13 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
+import { Activity } from './activity.entity';
 import { _BaseEntity } from './base.entity';
 import { HashTag } from './hashtags.entity';
 import { Image } from './image.entity';
 import { User } from './user.entity';
-import { Vote } from './vote.entity';
 
 @Entity()
 export class Project extends _BaseEntity {
@@ -71,6 +72,7 @@ export class Project extends _BaseEntity {
   tags: HashTag[];
   //TODO: Implement limit upto 3 users
 
-  @OneToMany(() => Vote, (vote) => vote.project)
-  votes: Vote[];
+  //define project's activity entity bidirectional/
+  @OneToOne(() => Activity)
+  @Join
 }
