@@ -74,10 +74,14 @@ export class UsersController {
     return this.userService.getUserProject(id);
   }
 
-  // @Get(':id/votes')
-  // async getUsersvotes(@Param('id', ParseIntPipe) id: number) {
-  //   return this.userService.getUserVotes(id);
-  // }
+  @Get(':id/votes')
+  async getUsersvotes(@Param('id') id: string) {
+    return this.userService.getAllUsersProjectsVotes(id);
+  }
+  @Get(':id/projectVotedOn')
+  async getAllProjectsUserVotedOn(@Param('id') id: string){
+    return this.userService.getAllProjectsUserUpvotedOn(id);
+  }
   //   @Get(':id/projects')
   //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {
   //     return this.userService.getUserProject(id);

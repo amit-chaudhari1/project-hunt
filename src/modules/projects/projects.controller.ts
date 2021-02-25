@@ -74,4 +74,5 @@ export class ProjectsController {
       route: 'http://0.0.0.0:3000/projects',
     });
   }
+
 }
