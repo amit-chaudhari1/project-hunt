@@ -73,7 +73,6 @@ export class Project extends _BaseEntity {
   //TODO: Implement limit upto 3 users
 
   //define project's activity entity bidirectional/
-  // @OneToOne(() => Activity)
-  // @JoinColumn()
-  
+  @OneToOne(() => Activity, (activity) => activity.project)
+  activity: Activity;
 }

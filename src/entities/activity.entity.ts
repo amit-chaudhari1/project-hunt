@@ -5,7 +5,7 @@ import { Vote } from './vote.entity';
 
 @Entity()
 export class Activity extends _BaseEntity {
-  @OneToOne(() => Project)
+  @OneToOne(() => Project, (project) => project.activity)
   @JoinColumn()
   project: Project;
 
