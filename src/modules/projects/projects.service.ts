@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { CommentRepository } from './comment.repository';
-import { createCommentDto, createProjectDto} from './createProject.dto';
-import { Connection, getConnection, getManager, getRepository } from 'typeorm';
+import { createCommentDto, createProjectDto } from './createProject.dto';
+import { getConnection, getManager, getRepository } from 'typeorm';
 import { ProjectRepository } from './projects.repository';
 import { Comment } from 'src/entities/comment.entity';
 import { Project } from 'src/entities/project.entity';
 import { User } from 'src/entities/user.entity';
 import { Vote } from 'src/entities/vote.entity';
-import { Activity} from 'src/entities/activity.entity'
+import { Activity } from 'src/entities/activity.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -17,7 +17,7 @@ export class ProjectsService {
   private projectRepository: ProjectRepository;
   @InjectRepository(CommentRepository)
   private commentRepository: CommentRepository;
- 
+
   async createProject(createProjectDto: createProjectDto) {
     const createdProject = await this.projectRepository
       .create(createProjectDto)
@@ -30,9 +30,9 @@ export class ProjectsService {
   }
 
   async getProjectById(id: string) {
-      return await this.projectRepository.findOne(id, {
-       relations: ['users', 'tags'],
-     });
+    return await this.projectRepository.findOne(id, {
+      relations: ['users', 'tags'],
+    });
   }
 
   async getPopularProjects() {
@@ -90,8 +90,8 @@ export class ProjectsService {
     }
   }
 
-   async upvote(userid: string, projectid: string){
-    const user = await getConnection() 
+  async upvote(userid: string, projectid: string): Promise<string> {
+    const user = await getConnection()
       .getRepository(User)
       .createQueryBuilder('user')
       .where('user.id = :id', { id: userid })
@@ -101,8 +101,10 @@ export class ProjectsService {
       .createQueryBuilder('project')
       .where('project.id = :id', { id: projectid })
       .getOne();
-    let activity = await Activity.find({where : {project:{ id : projectid }}});
-    let id = activity[0]["id"];
+    const activity = await Activity.find({
+      where: { project: { id: projectid } },
+    });
+    const id = activity[0]['id'];
     //activity contains array of object
     if (!user || !project) {
       return 'undefined user or project';
@@ -117,31 +119,50 @@ export class ProjectsService {
             activity: id,
           })
           .getOneOrFail();
-        return 'AlreadyUPvoted';
+        //this above query will succeed only if the user has upvoted on the project...
+        //if user has upvoted... then remove his upvote...
+        getConnection()
+          .createQueryBuilder()
+          .delete()
+          .from(Vote)
+          .where([{ user: user, activity: activity[0] }])
+          .execute();
+        //and decrement the votecount by one...
+        const voteCount = (activity[0]['voteCount'] -= 1);
+        getConnection()
+          .createQueryBuilder()
+          .update(Activity)
+          .set({
+            voteCount: voteCount,
+          })
+          .where('id =:id', { id: id })
+          .execute();
+        return 'You removed your vote...';
       } catch (e) {
         //the user never upvoted...
         //register the upvote and update the counts
         //TODO: Might want to refactor later...
-        
+
         getConnection()
           .createQueryBuilder()
           .insert()
           .into(Vote)
-          .values([{ user: user, activity : activity[0] }])
+          .values([{ user: user, activity: activity[0] }])
           .execute();
-        let voteCount = activity[0]["voteCount"] += 1;
-        getConnection().createQueryBuilder()
-        .update(Activity)
-        .set({
-          voteCount : voteCount 
-        })
-        .where("id =:id",{id : id})
-        .execute();
+        const voteCount = (activity[0]['voteCount'] += 1);
+        getConnection()
+          .createQueryBuilder()
+          .update(Activity)
+          .set({
+            voteCount: voteCount,
+          })
+          .where('id =:id', { id: id })
+          .execute();
         return 'Upvotes!';
       } finally {
       }
     }
-   }
+  }
 
   // // async getVotes(id: number): Promise<number> {
   // //   const query = await this.projectRepository.findOne(id, {
@@ -151,7 +172,7 @@ export class ProjectsService {
   // //   return voteCount;
   // // }
 
-   async createComment(projectId: string, comment: createCommentDto) {
+  async createComment(projectId: string, comment: createCommentDto) {
     const project = await this.projectRepository.findOne(projectId);
     const user = await getConnection()
       .getRepository(User)
@@ -167,7 +188,7 @@ export class ProjectsService {
       .insert()
       .values(newComment)
       .execute();
-   }
+  }
 
   async getCommentsByProjectId(projectId: string, options: IPaginationOptions) {
     const commentsQuery = getRepository(Comment)
@@ -177,8 +198,10 @@ export class ProjectsService {
     return await paginate(commentsQuery, options);
   }
 
-  async getVoteOnProject(projectId : String){
-    const voteCount = await Activity.find({where : {project:{ id : projectId }}});
-    return voteCount[0]["voteCount"];
+  async getVoteOnProject(projectId: string) {
+    const voteCount = await Activity.find({
+      where: { project: { id: projectId } },
+    });
+    return voteCount[0]['voteCount'];
   }
 }
