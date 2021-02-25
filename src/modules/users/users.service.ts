@@ -13,7 +13,6 @@ import { Comment } from 'src/entities/comment.entity';
 import { Vote } from 'src/entities/vote.entity';
 import { Activity } from 'src/entities/activity.entity';
 import { Project } from 'src/entities/project.entity';
-//TODO:solve the relative path problem
 @Injectable()
 export class UsersService {
   @InjectRepository(UserRepository)
@@ -95,35 +94,43 @@ export class UsersService {
   // async getUsersComments(id:number): Promise<Comment[]> {
   //   return;
   // }
-  async getAllUsersProjectsVotes(userId : string) {
-    let sumOfVote =0;
-    const projectIds = await getManager().query(`SELECT "projectId" FROM project_users_user WHERE "userId"=`+ '\'' + userId + '\' ;');
+  async getAllUsersProjectsVotes(userId: string) {
+    let sumOfVote = 0;
+    let temp: number;
+    const projectIds = await getManager().query(
+      `SELECT "projectId" FROM project_users_user WHERE "userId"=` +
+        "'" +
+        userId +
+        "' ;",
+    );
     console.log(projectIds);
-    let voteCounts; 
-    Object.entries(projectIds).forEach(
-      async projectIds =>{
-      voteCounts = await Activity.find({select : ["voteCount"],where : {project:{id : projectIds[1]["projectId"]}}});
-      console.log(voteCounts);
-      
-      try{
-        var temp = await voteCounts[0]["voteCount"];
-        sumOfVote +=  temp;
-        console.log(sumOfVote)
-
-
+    let voteCounts:
+      | Activity[]
+      | { [x: string]: number | PromiseLike<number> }[];
+    Object.entries(projectIds).forEach(async (projectIds) => {
+      voteCounts = await Activity.find({
+        select: ['voteCount'],
+        where: { project: { id: projectIds[1]['projectId'] } },
+      });
+      //TODO: is try block realy a way to implement this type, might want to REFACTOR later
+      //the only time this will throw and exception is out of bounds... but when will that happen?
+      try {
+        temp = voteCounts[0]['voteCount'];
+        sumOfVote += temp;
+      } catch (e) {
+      } finally {
+        return sumOfVote;
       }
-      catch{}
     });
-    console.log(sumOfVote)
-    //TODO: sumOfVote is intialized to 0 even after calculating sum;
-    return sumOfVote;
   }
 
-  getAllProjectsUserUpvotedOn(userId : string){
-    return getManager().query(`SELECT "activityId" FROM vote WHERE "userId"= `+ '\'' + userId + '\' ;');
-    }
+  getAllProjectsUserUpvotedOn(userId: string) {
+    return getManager().query(
+      `SELECT "activityId" FROM vote WHERE "userId"= ` + "'" + userId + "' ;",
+    );
+  }
   // async getUsersVotes(id: number): Promise<number> {
   //   //SUM UP all the votes on the projects of that user and return the total value for a user.
   //   return 12;
   // }
-  }
+}
