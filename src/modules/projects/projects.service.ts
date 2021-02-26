@@ -196,6 +196,14 @@ export class ProjectsService {
     return await paginate(commentsQuery, options);
   }
 
+  async getUsersVoted(projectId: string) {
+    const users = await Activity.find({
+      relations: ['votes'],
+      where: { project: { id: projectId } },
+    });
+    return users[0]['votes'];
+  }
+
   async getVoteOnProject(projectId: string) {
     const voteCount = await Activity.find({
       where: { project: { id: projectId } },
