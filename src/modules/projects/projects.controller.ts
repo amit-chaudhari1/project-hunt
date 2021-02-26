@@ -20,10 +20,16 @@ export class ProjectsController {
     return await this.projectService.createProject(createProjectDto);
   }
 
-  @Get(':id')
-  async findProjectByID(@Param('id') id: string) {
-    return await this.projectService.getProjectById(id);
-  } 
+  // @Get(':id')
+  // async findProjectByID(@Param('id') id: string) {
+  //   console.log('asdfasdfsad');
+  //   return await this.projectService.getProjectById(id);
+  // }
+  @Get('popular')
+  async getPopularProjects() {
+    console.log('hellot');
+    return await this.projectService.getPopularProjects();
+  }
 
   @Get('')
   async getProjects(
@@ -59,9 +65,10 @@ export class ProjectsController {
   }
 
   @Get(':projectId/votes')
-  async getVoteOnProject(@Param('projectId') projectId : string){
+  async getVoteOnProject(@Param('projectId') projectId: string) {
     return this.projectService.getVoteOnProject(projectId);
   }
+
   @Get(':projectId/comments')
   async getCommentsByProjectId(
     @Param('projectId') projectId: string,
@@ -74,5 +81,4 @@ export class ProjectsController {
       route: 'http://0.0.0.0:3000/projects',
     });
   }
-
 }

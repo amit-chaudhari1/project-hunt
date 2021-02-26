@@ -43,24 +43,15 @@ export class ProjectsService {
   }
 
   async getPopularProjects() {
-    // ! Is not returning relations. And currently only returning few properties
-    const result = await getManager().query(
-      `
-      SELECT
-      PROJECT.id, PROJECT.title, PROJECT.description, PROJECT.tagline,
-      COUNT("projectId") AS VoteCount
-  FROM
-      vote
-      Right JOIN PROJECT ON "projectId" = project.id
-  GROUP BY
-      project.id
-  ORDER BY
-      VoteCount DESC;
-      
-      `,
-    );
-    console.log(result);
-    return result;
+    console.log('asdklfjlk');
+    const projects = await Activity.find({
+      relations: ['project'],
+      order: { voteCount: 'DESC' },
+    });
+    return projects.map((obj) => {
+      console.log(obj['project']);
+      return obj['project'];
+    });
   }
 
   async getProjects(
