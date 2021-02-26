@@ -74,5 +74,6 @@ export class Project extends _BaseEntity {
 
   //define project's activity entity bidirectional/
   @OneToOne(() => Activity, (activity) => activity.project)
+  @JoinColumn()
   activity: Activity;
 }

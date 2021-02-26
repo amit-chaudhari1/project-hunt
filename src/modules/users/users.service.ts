@@ -10,7 +10,6 @@ import {
 import { getManager, getRepository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
 import { Comment } from 'src/entities/comment.entity';
-import { Vote } from 'src/entities/vote.entity';
 import { Activity } from 'src/entities/activity.entity';
 import { Project } from 'src/entities/project.entity';
 @Injectable()
@@ -96,7 +95,6 @@ export class UsersService {
   // }
   async getAllUsersProjectsVotes(userId: string) {
     let sumOfVote = 0;
-    let temp: number;
     const projectIds = await getManager().query(
       `SELECT "projectId" FROM project_users_user WHERE "userId"=` +
         "'" +
@@ -107,30 +105,41 @@ export class UsersService {
     let voteCounts:
       | Activity[]
       | { [x: string]: number | PromiseLike<number> }[];
-    Object.entries(projectIds).forEach(async (projectIds) => {
-      voteCounts = await Activity.find({
-        select: ['voteCount'],
-        where: { project: { id: projectIds[1]['projectId'] } },
-      });
-      //TODO: is try block realy a way to implement this type, might want to REFACTOR later
-      //the only time this will throw and exception is out of bounds... but when will that happen?
-      try {
-        temp = voteCounts[0]['voteCount'];
-        sumOfVote += temp;
-      } catch (e) {
-      } finally {
-        return sumOfVote;
-      }
-    });
+    await Promise.all(
+      Object.entries(projectIds).map(async (projectIds) => {
+        console.log(projectIds);
+        voteCounts = await Activity.find({
+          select: ['voteCount'],
+          where: { project: { id: projectIds[1]['projectId'] } },
+        });
+        sumOfVote += voteCounts[0]['voteCount'];
+        console.log(voteCounts);
+      }),
+    );
+    return sumOfVote;
   }
 
-  getAllProjectsUserUpvotedOn(userId: string) {
-    return getManager().query(
+  async getAllProjectsUserUpvotedOn(userId: string) {
+    const projects = [];
+    const activityraw = await getManager().query(
       `SELECT "activityId" FROM vote WHERE "userId"= ` + "'" + userId + "' ;",
     );
+    const activityIds = Object.entries(activityraw).map((obj) => {
+      return obj[1]['activityId'];
+    });
+
+    const ev = await Promise.all(
+      activityIds.map(async (obj) => {
+        projects.push(
+          await getRepository(Project)
+            .createQueryBuilder('project')
+            .where('project.activityId =:id', { id: obj })
+            .getMany(),
+        );
+        return projects;
+      }),
+    );
+    console.log(ev);
+    return ev;
   }
-  // async getUsersVotes(id: number): Promise<number> {
-  //   //SUM UP all the votes on the projects of that user and return the total value for a user.
-  //   return 12;
-  // }
 }

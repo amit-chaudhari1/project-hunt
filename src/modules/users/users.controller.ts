@@ -80,7 +80,7 @@ export class UsersController {
   }
   @Get(':id/projectVotedOn')
   async getAllProjectsUserVotedOn(@Param('id') id: string){
-    return this.userService.getAllProjectsUserUpvotedOn(id);
+    return await this.userService.getAllProjectsUserUpvotedOn(id);
   }
   //   @Get(':id/projects')
   //   async getUserProjects(@Param('id', ParseIntPipe) id: number) {

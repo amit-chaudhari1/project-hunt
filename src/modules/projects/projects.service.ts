@@ -22,10 +22,17 @@ export class ProjectsService {
     const createdProject = await this.projectRepository
       .create(createProjectDto)
       .save();
-
     const projectActivity = new Activity();
     projectActivity.project = createdProject;
     await Activity.save(projectActivity);
+    this.projectRepository
+      .createQueryBuilder()
+      .update()
+      .set({
+        activity: projectActivity,
+      })
+      .where('id =:id', { id: createdProject.id })
+      .execute();
     return createdProject;
   }
 
