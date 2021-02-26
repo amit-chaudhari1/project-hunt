@@ -75,6 +75,18 @@ export class UsersService {
     return await paginate(commentsQuery, options);
   }
 
+  async getPopularUsers() {
+    const users = await User.find({ select: ['id'] });
+    await Promise.all(
+      users.map(async (obj, index) => {
+        const temp = await this.getAllUsersProjectsVotes(obj['id']);
+        users[index]['voteCount'] = temp;
+      }),
+    );
+    users.sort((a, b) => b['voteCount'] - a['voteCount']);
+    return users;
+  }
+
   async getUserProject(id: string) {
     return this.userRepository
       .createQueryBuilder('user')
@@ -101,19 +113,16 @@ export class UsersService {
         userId +
         "' ;",
     );
-    console.log(projectIds);
     let voteCounts:
       | Activity[]
       | { [x: string]: number | PromiseLike<number> }[];
     await Promise.all(
       Object.entries(projectIds).map(async (projectIds) => {
-        console.log(projectIds);
         voteCounts = await Activity.find({
           select: ['voteCount'],
           where: { project: { id: projectIds[1]['projectId'] } },
         });
         sumOfVote += voteCounts[0]['voteCount'];
-        console.log(voteCounts);
       }),
     );
     return sumOfVote;

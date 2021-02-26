@@ -28,7 +28,10 @@ export class UsersController {
   async getUserById(@Param('id') id: string): Promise<User[]> {
     return this.userService.findUserById(id);
   }
-
+  @Get('user/popular')
+  async getPopularUser() {
+    return this.userService.getPopularUsers();
+  }
   @Get()
   async getAllUsers(
     @Query('page', ParseIntPipe) page = 1,
@@ -79,7 +82,7 @@ export class UsersController {
     return this.userService.getAllUsersProjectsVotes(id);
   }
   @Get(':id/projectVotedOn')
-  async getAllProjectsUserVotedOn(@Param('id') id: string){
+  async getAllProjectsUserVotedOn(@Param('id') id: string) {
     return await this.userService.getAllProjectsUserUpvotedOn(id);
   }
   //   @Get(':id/projects')
