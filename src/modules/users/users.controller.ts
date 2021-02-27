@@ -14,6 +14,7 @@ import { User } from './../../entities/user.entity';
 import { createUserDto } from './createUser.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { UsersService } from './users.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +22,12 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() createUserDto: createUserDto) {
+    const saltOrRounds = 10;
+    //hash the password and then carry on with storing it in the users table...
+    createUserDto.password = await bcrypt.hash(
+      createUserDto.password,
+      saltOrRounds,
+    );
     return this.userService.createUser(createUserDto);
   }
 
@@ -79,7 +86,7 @@ export class UsersController {
     return this.userService.getAllUsersProjectsVotes(id);
   }
   @Get(':id/projectVotedOn')
-  async getAllProjectsUserVotedOn(@Param('id') id: string){
+  async getAllProjectsUserVotedOn(@Param('id') id: string) {
     return this.userService.getAllProjectsUserUpvotedOn(id);
   }
   //   @Get(':id/projects')
