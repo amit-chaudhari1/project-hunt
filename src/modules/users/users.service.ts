@@ -27,8 +27,11 @@ export class UsersService {
     return paginate<User>(findusers, options);
   }
 
-  async findUserById(id: string) {
-    return await this.userRepository.find({ where: { id: id } });
+  async findUserById(id: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({ where: { id: id } });
+  }
+  async findUserByUsername(username: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({ where: { username: username } });
   }
 
   //TODO:Future Feature for search implemtation

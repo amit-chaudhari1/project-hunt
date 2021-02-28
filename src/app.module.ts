@@ -13,6 +13,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { HashTag } from './entities/hashtags.entity';
 import { HashtagModule } from './modules/hashtag/hashtag.module';
 import { Activity } from './entities/activity.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { Activity } from './entities/activity.entity';
     UsersModule,
     ProjectsModule,
     HashtagModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
