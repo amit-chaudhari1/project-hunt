@@ -14,9 +14,13 @@ import { HashTag } from './entities/hashtags.entity';
 import { HashtagModule } from './modules/hashtag/hashtag.module';
 import { Activity } from './entities/activity.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       database: 'projecthunt',
