@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -11,6 +12,7 @@ import { _BaseEntity } from './base.entity';
 import { Image } from './image.entity';
 import { Project } from './project.entity';
 import { Vote } from './vote.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User extends _BaseEntity {
@@ -24,6 +26,15 @@ export class User extends _BaseEntity {
     nullable: false,
   })
   password: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
+  async comparePassword(attempt: string): Promise<boolean> {
+    return await bcrypt.compare(attempt, this.password);
+  }
 
   @Column({
     type: 'varchar',

@@ -46,11 +46,10 @@ export class UsersService {
   }
 
   async createUser(createUserDto: createUserDto) {
-    return await this.userRepository
-      .createQueryBuilder('user')
-      .insert()
-      .values(createUserDto)
-      .execute();
+    const { password, ...user } = await this.userRepository
+      .create(createUserDto)
+      .save();
+    return user;
   } //TODO: test if above function works
 
   async updateUser(updateUser: createUserDto, id: string) {
