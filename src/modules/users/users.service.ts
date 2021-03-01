@@ -7,17 +7,19 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { getManager, getRepository } from 'typeorm';
+import { getConnection, getManager, getRepository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
 import { Comment } from 'src/entities/comment.entity';
 import { Vote } from 'src/entities/vote.entity';
 import { Activity } from 'src/entities/activity.entity';
 import { Project } from 'src/entities/project.entity';
+import { Session } from 'src/entities/session.entity';
+import { loginUserDto } from './loginUser.dto';
 @Injectable()
 export class UsersService {
   @InjectRepository(UserRepository)
   private userRepository: UserRepository;
-  //DONE:###################################
+  //DONE:##################################
 
   async getAllUser(
     options: IPaginationOptions,
@@ -128,6 +130,30 @@ export class UsersService {
     return getManager().query(
       `SELECT "activityId" FROM vote WHERE "userId"= ` + "'" + userId + "' ;",
     );
+  }
+
+  async getUserBySession(sessionId: string): Promise<User> {
+    const session = await getRepository(Session).findOne({
+      where: { id: sessionId },
+    });
+    return session.user;
+  }
+
+  async createUserSession(loginUserDto: loginUserDto) {
+    // const today = new Date();
+    // const expirydate = today.setDate(today.getDate() + 7);
+    const hour = new Date();
+    const expiryminute = hour.setMinutes(hour.getMinutes() + 2); //For testing purposes only, hehe
+    console.log(loginUserDto.username);
+    //TODO: this.userRepository was giving errors here.
+    const user_ = await getRepository(User).findOne({
+      where: { username: loginUserDto.username },
+    });
+    const session = await getRepository(Session).save({
+      user: user_,
+      expiresOn: hour,
+    });
+    return session;
   }
   // async getUsersVotes(id: number): Promise<number> {
   //   //SUM UP all the votes on the projects of that user and return the total value for a user.

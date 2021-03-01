@@ -1,27 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Session } from 'inspector';
+import { getConnection } from 'typeorm';
+import { AuthService } from './auth/auth.service';
+import { loginUserDto } from './modules/users/loginUser.dto';
+import { UserRepository } from './modules/users/user.repository';
+import { UsersService } from './modules/users/users.service';
 
 @Injectable()
 export class AppService {
+  @Inject(UsersService)
+  private userService: UsersService;
+
+  @Inject(AuthService)
+  private authService: AuthService;
+
   getHello(): string {
     return 'Hello World!';
   }
-  async login(username: string, passwordHash: string) {
-    const validate = await this.authService.ValidateUser({
-      username,
-      passwordHash,
-    });
+  async login(loginUserDto: loginUserDto) {
+    const validate = await this.authService.ValidateUserCredentials(
+      loginUserDto,
+    );
     if (validate) {
-      // TODO:
-      // check for conditions for a valid cookie which are :
-      // it should one on one relation for that user and him only.
-      // should have expires on in future.
-      // no? assign a new session
-      // send it ina cookie...
-      // yes? send it as a cookie to this user...
-      // and refresh its expiration to seven days forward?
+      const session = await this.userService.createUserSession(loginUserDto);
+      return session.id;
     } else {
-      //TODO: how do i send a message that says "username or password was incorrect"
-      return { url: 'https:localhost:3000/login' };
+      return false;
     }
   }
 }

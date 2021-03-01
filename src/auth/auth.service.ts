@@ -2,24 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
 import { getConnection } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { loginUserDto } from 'src/modules/users/loginUser.dto';
 
 @Injectable()
 export class AuthService {
-  async ValidateUser(user: {
-    username: string;
-    passwordHash: string;
-  }): Promise<boolean> {
+  async ValidateUserCredentials(loginUserDto: loginUserDto): Promise<boolean> {
     //get the username or undefined if nothing mathces in the database...
+    //TODO:Needs REfactoring
     const possibleUser = await getConnection()
       .getRepository(User)
       .createQueryBuilder('user')
       .select(['user.password'])
-      .where('username LIKE :username', { username: user.username })
+      .where('username LIKE :username', { username: loginUserDto.username })
       .getOne();
     console.log('Current user should have Hash ' + possibleUser.password);
-    console.log('The hash that was passed to me was' + user.passwordHash);
+    console.log(
+      'The password that needs to get hashed passed to me was' +
+        loginUserDto.passwordHash,
+    );
     const passwdMatch = await bcrypt.compare(
-      user.passwordHash,
+      loginUserDto.passwordHash,
       possibleUser.password,
     );
     console.log(passwdMatch);

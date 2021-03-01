@@ -14,6 +14,10 @@ import { HashTag } from './entities/hashtags.entity';
 import { HashtagModule } from './modules/hashtag/hashtag.module';
 import { Activity } from './entities/activity.entity';
 import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
+import { UsersService } from './modules/users/users.service';
+import { UserRepository } from './modules/users/user.repository';
+import { Session } from './entities/session.entity';
 
 @Module({
   imports: [
@@ -31,6 +35,7 @@ import { AuthModule } from './auth/auth.module';
         Project,
         HashTag,
         Activity,
+        Session,
       ],
       //TODO: document the entity relations.
       //TODO: Hashtag entity discussion.
@@ -43,6 +48,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService, UsersService, UserRepository],
 })
 export class AppModule {}

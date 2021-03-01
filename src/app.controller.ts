@@ -1,6 +1,8 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
+import { loginUserDto } from './modules/users/loginUser.dto';
 
 @Controller()
 export class AppController {
@@ -14,7 +16,17 @@ export class AppController {
   }
 
   @Get('/login')
-  async login(username: string, passwordHash: string) {
-    return this.appService.login(username, passwordHash);
+  async login(@Body() loginUserDto: loginUserDto, @Res() res: Response) {
+    const token = await this.appService.login(loginUserDto);
+    console.log('current TOken is' + token);
+    if (!token) {
+      return 'invalid username or password';
+    } else {
+      res.set('Authorization', 'Bearer ' + token);
+      res.send({
+        success: true,
+        token,
+      });
+    }
   }
 }
