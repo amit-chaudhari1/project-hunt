@@ -23,6 +23,8 @@ export class AppController {
       return 'invalid username or password';
     } else {
       res.set('Authorization', 'Bearer ' + token);
+      //set expire to match the session entities expire
+      res.cookie('SessionID', token, { maxAge: 90000, httpOnly: true });
       res.send({
         success: true,
         token,

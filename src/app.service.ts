@@ -19,6 +19,7 @@ export class AppService {
     return 'Hello World!';
   }
   async login(loginUserDto: loginUserDto) {
+    //use local strat passport
     const validate = await this.authService.ValidateUserCredentials(
       loginUserDto,
     );
