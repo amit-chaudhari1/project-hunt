@@ -1,6 +1,7 @@
 import {
   ExecutionContext,
   Injectable,
+  Redirect,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -19,7 +20,6 @@ export class SessionGuard extends AuthGuard('cookie') {
 
     if (!sessionMatch) {
       this.handleRequest(null);
-      console.log(sessionMatch);
     }
     return true;
   }
@@ -28,7 +28,8 @@ export class SessionGuard extends AuthGuard('cookie') {
   handleRequest(user) {
     // You can throw an exception based on either "info" or "err" arguments
     if (!user) {
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
+      Redirect('https:0.0.0.0:3000/login');
     }
     return user;
   }
