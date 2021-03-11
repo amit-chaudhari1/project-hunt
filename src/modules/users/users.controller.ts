@@ -13,12 +13,12 @@ import { User } from './../../entities/user.entity';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createUserDto } from './createUser.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { UsersService } from './users.service';
+import { UserService } from './users.service';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Body() createUserDto: createUserDto) {

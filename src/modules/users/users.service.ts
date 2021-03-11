@@ -16,10 +16,9 @@ import { Project } from 'src/entities/project.entity';
 import { Session } from 'src/entities/session.entity';
 import { loginUserDto } from './loginUser.dto';
 @Injectable()
-export class UsersService {
+export class UserService {
   @InjectRepository(UserRepository)
   private userRepository: UserRepository;
-  //DONE:##################################
 
   async getAllUser(
     options: IPaginationOptions,
@@ -43,6 +42,14 @@ export class UsersService {
         lname: lastname,
       })
       .execute();
+  }
+
+  async findUserByUsername(username: string) {
+    const query = await getRepository(User).findOne({
+      where: { username: username },
+    });
+    return query;
+    //The reason I am using getRepository() here instead of this.userRepository is because it gives an error of repository being undefined,
   }
 
   async createUser(createUserDto: createUserDto) {
@@ -139,11 +146,12 @@ export class UsersService {
     return session.user;
   }
 
+  /**This is basically our login method, might refactor later to change the name */
   async createUserSession(loginUserDto: loginUserDto) {
     // const today = new Date();
     // const expirydate = today.setDate(today.getDate() + 7);
     const hour = new Date();
-    const expiryminute = hour.setMinutes(hour.getMinutes() + 2); //For testing purposes only, hehe
+    hour.setMinutes(hour.getMinutes() + 2); //For testing purposes only, hehe
     console.log(loginUserDto.username);
     //TODO: this.userRepository was giving errors here.
     const user_ = await getRepository(User).findOne({

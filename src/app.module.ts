@@ -15,12 +15,14 @@ import { HashtagModule } from './modules/hashtag/hashtag.module';
 import { Activity } from './entities/activity.entity';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
-import { UsersService } from './modules/users/users.service';
+import { UserService } from './modules/users/users.service';
 import { UserRepository } from './modules/users/user.repository';
 import { Session } from './entities/session.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       database: 'projecthunt',
@@ -48,6 +50,6 @@ import { Session } from './entities/session.entity';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService, UsersService, UserRepository],
+  providers: [AppService, AuthService, UserService, UserRepository],
 })
 export class AppModule {}

@@ -5,12 +5,12 @@ import { getConnection } from 'typeorm';
 import { AuthService } from './auth/auth.service';
 import { loginUserDto } from './modules/users/loginUser.dto';
 import { UserRepository } from './modules/users/user.repository';
-import { UsersService } from './modules/users/users.service';
+import { UserService } from './modules/users/users.service';
 
 @Injectable()
 export class AppService {
-  @Inject(UsersService)
-  private userService: UsersService;
+  @Inject(UserService)
+  private userService: UserService;
 
   @Inject(AuthService)
   private authService: AuthService;
@@ -18,16 +18,9 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
+
   async login(loginUserDto: loginUserDto) {
-    //use local strat passport
-    const validate = await this.authService.ValidateUserCredentials(
-      loginUserDto,
-    );
-    if (validate) {
-      const session = await this.userService.createUserSession(loginUserDto);
-      return session.id;
-    } else {
-      return false;
-    }
+    const session = await this.userService.createUserSession(loginUserDto);
+    return session.id;
   }
 }
