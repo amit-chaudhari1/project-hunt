@@ -24,5 +24,5 @@ export class Comment extends _BaseEntity {
 
   @Column({ type: 'varchar', length: 1000, nullable: false })
   body: string;
-  //TODO: constraints
+  
 }

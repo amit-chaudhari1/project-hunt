@@ -12,7 +12,7 @@ import { Session } from './../../entities/session.entity';
 export class SessionGuard extends AuthGuard('cookie') {
   async canActivate(context: ExecutionContext) {
     const reqCooki = context.switchToHttp().getRequest();
-    //we will be recieving secure signed HTTP Only cookies.. refactor for that.
+    //TODO: we will be recieving secure signed HTTP Only cookies.. refactor for that.
     const reqcoo = reqCooki.cookies['SessionID'];
     const sessionMatch = await getRepository(Session).findOne({
       where: { id: reqcoo },
@@ -28,8 +28,8 @@ export class SessionGuard extends AuthGuard('cookie') {
   handleRequest(user) {
     // You can throw an exception based on either "info" or "err" arguments
     if (!user) {
-      // throw new UnauthorizedException();
-      Redirect('https:0.0.0.0:3000/login');
+      throw new UnauthorizedException();
+      // Redirect('https:localhost:3000/login');
     }
     return user;
   }

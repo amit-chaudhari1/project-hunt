@@ -23,7 +23,6 @@ export class AuthController {
 
   @Get('github/callback')
   async SigninWithGithubCallback(@Req() req) {
-    console.log(req);
     return 'yay';
     //redirect to home page where we get the hello world. or user profile page .
   }

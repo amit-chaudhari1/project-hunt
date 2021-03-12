@@ -47,7 +47,7 @@ export class UsersController {
       {
         page,
         limit,
-        route: 'http://0.0.0.0:3000/users',
+        route: 'http://localhost:3000/users',
       },
       order,
     );
@@ -72,7 +72,7 @@ export class UsersController {
     return this.userService.getCommentsByUserId(userId, {
       page,
       limit,
-      route: 'http://0.0.0.0:3000/users',
+      route: 'http://localhost:3000/users',
     });
   }
 

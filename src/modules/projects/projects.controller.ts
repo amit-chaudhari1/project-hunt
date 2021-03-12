@@ -23,7 +23,7 @@ export class ProjectsController {
   @Get(':id')
   async findProjectByID(@Param('id') id: string) {
     return await this.projectService.getProjectById(id);
-  } 
+  }
 
   @Get('')
   async getProjects(
@@ -36,7 +36,7 @@ export class ProjectsController {
     return await this.projectService.getProjects(sortBy, name, tag, {
       page,
       limit,
-      route: 'http://0.0.0.0:3000/projects',
+      route: 'http://localhost:3000/projects',
     });
   }
 
@@ -59,7 +59,7 @@ export class ProjectsController {
   }
 
   @Get(':projectId/votes')
-  async getVoteOnProject(@Param('projectId') projectId : string){
+  async getVoteOnProject(@Param('projectId') projectId: string) {
     return this.projectService.getVoteOnProject(projectId);
   }
   @Get(':projectId/comments')
@@ -71,8 +71,7 @@ export class ProjectsController {
     return this.projectService.getCommentsByProjectId(projectId, {
       page,
       limit,
-      route: 'http://0.0.0.0:3000/projects',
+      route: 'http://localhost:3000/projects',
     });
   }
-
 }
