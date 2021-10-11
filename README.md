@@ -14,8 +14,6 @@ It is a place for people to showcase their projects and discover projects by pee
 
 A growing segment of the developer/designer/product market is looking for people with past projects having been made. A portfolio site where projects can be showcased, and also where great projects can be discovered can help foster this community.
 
-[Arnav Bhaiiya](https://github.com/championswimmer) at coding blocks is helping us, and documenting the development in open
-
 Here's the [link](https://www.notion.so/myproject-page-f753fd0a6cb24ce19ff01e1d96d75af0) to notion doc containing briefing, Discussion notes etc
 
 ## Collaboration
